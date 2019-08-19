@@ -1,0 +1,291 @@
+{
+	"apiVersion": "v1",
+	"kind": "Template",
+	"labels": {
+		"app": "cpd-quick-start-watson-machine-learning",
+		"template": "cpd-quick-start-watson-machine-learning"
+	},
+	"message": "The following service(s) have been created in your project: ${EVENT_SIMULATOR_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
+	"metadata": {
+		"annotations": {
+			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
+			"iconClass": "icon-python",
+			"openshift.io/display-name": "CPD Quick Start Watson Machine Learning",
+			"openshift.io/documentation-url": "https://github.com/TBD",
+			"openshift.io/long-description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
+			"openshift.io/provider-display-name": "IBM",
+			"tags": "quickstart,python,postgres,watson,mongo",
+		},
+		"name": "cpd-quick-start-watson-machine-learning"
+	},
+	"objects": [
+		{
+			"apiVersion": "v1",
+			"kind": "ImageStream",
+			"metadata": {
+				"annotations": {
+					"description": "Keeps track of changes in the application image"
+				},
+				"name": "${EVENT_SIMULATOR_NAME}"
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "BuildConfig",
+			"metadata": {
+				"annotations": {
+					"description": "Defines how to build the application",
+					"template.alpha.openshift.io/wait-for-ready": "true"
+				},
+				"name": "${EVENT_SIMULATOR_NAME}"
+			},
+			"spec": {
+				"output": {
+					"to": {
+						"kind": "ImageStreamTag",
+						"name": "${EVENT_SIMULATOR_NAME}:latest"
+					}
+				},
+				"postCommit": {
+					"script": "./reefer-container-simulator/container_events_producer.py"
+				},
+				"source": {
+                    "contextDir": "${CONTEXT_DIR}",
+                    "git": {
+                        "ref": "${SOURCE_REPOSITORY_REF}",
+                        "uri": "${SOURCE_REPOSITORY_URL}"
+                    },
+                    "type": "Git"
+                },
+                "strategy": {
+                    "sourceStrategy": {
+                        "env": [
+                            {
+                                "name": "PIP_INDEX_URL",
+                                "value": "${PIP_INDEX_URL}"
+                            }
+                        ],
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "python:${PYTHON_VERSION}",
+                            "namespace": "${NAMESPACE}"
+                        }
+                    },
+                    "type": "Source"
+                },
+				"triggers": [
+					{
+						"type": "ImageChange"
+					},
+					{
+						"type": "ConfigChange"
+					},
+					{
+						"github": {
+							"secret": "${GITHUB_WEBHOOK_SECRET}"
+						},
+						"type": "GitHub"
+					},
+					{
+						"generic": {
+							"secret": "${GENERIC_WEBHOOK_SECRET}"
+						},
+						"type": "Generic"
+					}
+				]
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "DeploymentConfig",
+			"metadata": {
+				"annotations": {
+					"description": "Defines how to deploy the service",
+					"template.alpha.openshift.io/wait-for-ready": "true"
+				},
+				"name": "${EVENT_SIMULATOR_NAME}"
+			},
+			"spec": {
+				"replicas": 1,
+				"selector": {
+					"name": "${EVENT_SIMULATOR_NAME}"
+				},
+				"strategy": {
+					"type": "Recreate"
+				},
+				"template": {
+					"metadata": {
+						"labels": {
+							"name": "${EVENT_SIMULATOR_NAME}"
+						},
+						"name": "${EVENT_SIMULATOR_NAME}"
+					},
+					"spec": {
+						"containers": [
+							{
+								"name": "reefer-container-simulator",
+								"image": " ",
+								"ports": [
+									{
+										"containerPort": 8080
+									}
+								],
+								"env": [
+									{
+										"name": "POSTGRESQL_HOST",
+										"value": "${POSTGRES_HOST}"
+									},
+									{
+										"name": "POSTGRESQL_PORT",
+										"value": "${POSTGRESQL_PORT}"
+									},
+									{
+										"name": "POSTGRESQL_USER",
+										"value": "${POSTGRESQL_USER}"
+									},
+									{
+										"name": "POSTGRESQL_PASSWORD",
+										"value": "${POSTGRESQL_PASSWORD}"
+									},
+								],
+								"livenessProbe": {
+									"httpGet": {
+										"path": "/health",
+										"port": 3000
+									},
+									"initialDelaySeconds": 30,
+									"timeoutSeconds": 3
+								},
+								"readinessProbe": {
+									"httpGet": {
+										"path": "/health",
+										"port": 3000
+									},
+									"initialDelaySeconds": 3,
+									"timeoutSeconds": 3
+								},
+								"resources": {
+									"limits": {
+										"memory": "${MEMORY_LIMIT}"
+									}
+								}
+							}
+						]
+					}
+				},
+				"triggers": [
+					{
+						"imageChangeParams": {
+							"automatic": true,
+							"containerNames": [
+								"reefer-container-simulator"
+							],
+							"from": {
+								"kind": "ImageStreamTag",
+								"name": "${EVENT_SIMULATOR_NAME}:latest"
+							}
+						},
+						"type": "ImageChange"
+					},
+					{
+						"type": "ConfigChange"
+					}
+				]
+			}
+		}
+	],
+	"parameters": [
+		{
+			"description": "The name of the producer service",
+			"displayName": "Event Producer Name",
+			"name": "EVENT_SIMULATOR_NAME",
+			"required": true,
+			"value": "reefer-container-simulator"
+		},
+		{
+			"description": "Watson Machine Learnign scoring service",
+			"displayName": "Watson Machine Learning Scoring Name ",
+			"name": "MACHINE_LEARNING_SCORING_NAME",
+			"required": true,
+			"value": "reefer-container-maintenance-predictor"
+		},
+		{
+            "description": "Version of Python image to be used (3.6 or latest).",
+            "displayName": "Version of Python Image",
+            "name": "PYTHON_VERSION",
+            "required": true,
+            "value": "3.6"
+        },
+		{
+			"displayName": "Postgres database host",
+			"name": "POSTGRESQL_HOST",
+			"required": true
+		},
+		{
+			"displayName": "Postgres database port (default: 5432)",
+			"name": "POSTGRESQL_PORT",
+			"required": false
+		},
+		{
+			"displayName": "Postgres database user",
+			"name": "POSTGRESQL_USER",
+			"required": true
+		},
+		{
+			"displayName": "Postgres database password",
+			"name": "POSTGRESQL_PASSWORD",
+			"required": true
+		},
+		{
+			"description": "The OpenShift Namespace where the ImageStream resides.",
+			"displayName": "Namespace",
+			"name": "NAMESPACE",
+			"required": true,
+			"value": "openshift"
+		},
+		{
+			"description": "Maximum amount of memory the Node.js container can use.",
+			"displayName": "Memory Limit",
+			"name": "MEMORY_LIMIT",
+			"required": true,
+			"value": "512Mi"
+		},
+		{
+			"description": "The URL of the repository with your application source code.",
+			"displayName": "Git Repository URL",
+			"name": "SOURCE_REPOSITORY_URL",
+			"required": true,
+			"value": "https://github.ibm.com/icp4d-devex-prototype/cpd-quick-start-watson-machine-learning"
+		},
+		{
+			"description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+			"displayName": "Git Reference",
+			"name": "SOURCE_REPOSITORY_REF"
+		},
+		{
+			"description": "Set this to the relative path to your project if it is not in the root of your repository.",
+			"displayName": "Context Directory",
+			"name": "CONTEXT_DIR"
+		},
+		{
+			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+			"displayName": "GitHub Webhook Secret",
+			"from": "[a-zA-Z0-9]{40}",
+			"generate": "expression",
+			"name": "GITHUB_WEBHOOK_SECRET"
+		},
+		{
+			"description": "A secret string used to configure the Generic webhook.",
+			"displayName": "Generic Webhook Secret",
+			"from": "[a-zA-Z0-9]{40}",
+			"generate": "expression",
+			"name": "GENERIC_WEBHOOK_SECRET"
+		},
+		{
+            "description": "The custom PyPi index URL",
+            "displayName": "Custom PyPi Index URL",
+            "name": "PIP_INDEX_URL",
+            "value": ""
+        }
+	]
+}
