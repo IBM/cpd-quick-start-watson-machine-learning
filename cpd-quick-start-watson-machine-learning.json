@@ -255,7 +255,7 @@
 			"displayName": "Git Repository URL",
 			"name": "SOURCE_REPOSITORY_URL",
 			"required": true,
-			"value": "https://github.ibm.com/icp4d-devex-prototype/cpd-quick-start-watson-machine-learning"
+			"value": "https://github.com/estherhi/cpd-quick-start-watson-machine-learning"
 		},
 		{
 			"description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
