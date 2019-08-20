@@ -226,7 +226,7 @@
 			"displayName": "Postgres database port",
 			"name": "POSTGRESQL_PORT",
 			"required": false,
-			"value": 5432
+			"value": "5432"
 		},
 		{
 			"displayName": "Postgres database user",
