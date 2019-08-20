@@ -23,4 +23,9 @@ def config():
         sys.exit('missing POSTGRESQL_PASSWORD env var')
         return
 
-    return {"host": host, "port": port, "user": user, "password": password, "dbname": "postgres"}
+    database = os.getenv('POSTGRESQL_DATABASE', False)
+    if not database:
+        sys.exit('missing POSTGRESQL_DATABASE env var')
+        return
+
+    return {"host": host, "port": port, "user": user, "password": password, "dbname": database}
