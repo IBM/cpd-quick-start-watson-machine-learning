@@ -63,8 +63,24 @@
                             {
                                 "name": "PIP_INDEX_URL",
                                 "value": "${PIP_INDEX_URL}"
-                            }
-                        ],
+                            },
+							{
+								"name": "POSTGRESQL_HOST",
+								"value": "${POSTGRES_HOST}"
+							},
+							{
+								"name": "POSTGRESQL_PORT",
+								"value": "${POSTGRESQL_PORT}"
+							},
+							{
+								"name": "POSTGRESQL_USER",
+								"value": "${POSTGRESQL_USER}"
+							},
+							{
+								"name": "POSTGRESQL_PASSWORD",
+								"value": "${POSTGRESQL_PASSWORD}"
+							}
+						],
                         "from": {
                             "kind": "ImageStreamTag",
                             "name": "python:${PYTHON_VERSION}",
