@@ -145,6 +145,10 @@
 										"value": "${POSTGRESQL_PASSWORD}"
 									},
 									{
+										"name": "POSTGRESQL_DATABASE",
+										"value": "${POSTGRESQL_DATABASE}"
+									},
+									{
 										"name": "APP_FILE",
 										"value": "${APP_FILE}"
 									}
@@ -236,6 +240,11 @@
 		{
 			"displayName": "Postgres database password",
 			"name": "POSTGRESQL_PASSWORD",
+			"required": true
+		},
+		{
+			"displayName": "Postgres database",
+			"name": "POSTGRESQL_DATABASE",
 			"required": true
 		},
 		{
