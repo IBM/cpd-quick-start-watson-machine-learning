@@ -46,9 +46,6 @@
 						"name": "${EVENT_SIMULATOR_NAME}:latest"
 					}
 				},
-				"postCommit": {
-					"script": "./container_events_producer.py"
-				},
 				"source": {
                     "contextDir": "${CONTEXT_DIR}",
                     "git": {
@@ -63,23 +60,7 @@
                             {
                                 "name": "PIP_INDEX_URL",
                                 "value": "${PIP_INDEX_URL}"
-                            },
-							{
-								"name": "POSTGRESQL_HOST",
-								"value": "${POSTGRES_HOST}"
-							},
-							{
-								"name": "POSTGRESQL_PORT",
-								"value": "${POSTGRESQL_PORT}"
-							},
-							{
-								"name": "POSTGRESQL_USER",
-								"value": "${POSTGRESQL_USER}"
-							},
-							{
-								"name": "POSTGRESQL_PASSWORD",
-								"value": "${POSTGRESQL_PASSWORD}"
-							}
+                            }
 						],
                         "from": {
                             "kind": "ImageStreamTag",
@@ -163,6 +144,10 @@
 										"name": "POSTGRESQL_PASSWORD",
 										"value": "${POSTGRESQL_PASSWORD}"
 									},
+									{
+										"name": "APP_FILE",
+										"value": "${APP_FILE}"
+									}
 								],
 								"livenessProbe": {
 									"httpGet": {
@@ -303,6 +288,12 @@
             "displayName": "Custom PyPi Index URL",
             "name": "PIP_INDEX_URL",
             "value": ""
-        }
+        },
+		{
+			"description": "The application file to run",
+			"displayName": "Application file",
+			"name": "APP_FILE",
+			"value": "container_events_producer.py"
+		}
 	]
 }
