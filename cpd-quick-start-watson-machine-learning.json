@@ -47,7 +47,7 @@
 					}
 				},
 				"postCommit": {
-					"script": "./reefer-container-simulator/container_events_producer.py"
+					"script": "./container_events_producer.py"
 				},
 				"source": {
                     "contextDir": "${CONTEXT_DIR}",
@@ -265,7 +265,8 @@
 		{
 			"description": "Set this to the relative path to your project if it is not in the root of your repository.",
 			"displayName": "Context Directory",
-			"name": "CONTEXT_DIR"
+			"name": "CONTEXT_DIR",
+			"value": "reefer-container-simulator"
 		},
 		{
 			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
