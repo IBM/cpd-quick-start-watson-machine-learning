@@ -130,7 +130,7 @@
 								"env": [
 									{
 										"name": "POSTGRESQL_HOST",
-										"value": "${POSTGRES_HOST}"
+										"value": "${POSTGRESQL_HOST}"
 									},
 									{
 										"name": "POSTGRESQL_PORT",
@@ -223,9 +223,10 @@
 			"required": true
 		},
 		{
-			"displayName": "Postgres database port (default: 5432)",
+			"displayName": "Postgres database port",
 			"name": "POSTGRESQL_PORT",
-			"required": false
+			"required": false,
+			"value": 5432
 		},
 		{
 			"displayName": "Postgres database user",
