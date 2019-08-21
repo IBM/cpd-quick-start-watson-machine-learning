@@ -47,29 +47,11 @@ def insert_event(cur, columns, values):
 
 
 def connect_to_db():
-    conn = None
-    try:
-        params = config()
-        # connect to the PostgreSQL server
-        logging.info('Connecting to PostgreSQL...')
-        conn = psycopg2.connect(**params)
-        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    except psycopg2.OperationalError as e: # When db does not exist just returns fatal string no error code..
-        try:
-            conn = create_database()
-        except Exception as err:
-           raise e;
-    return conn;
-
-
-
-def create_database():
     params = config()
-    db_name = params["dbname"]
-    del params["dbname"]
+    # connect to the PostgreSQL server
+    logging.info('Connecting to PostgreSQL...')
     conn = psycopg2.connect(**params)
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
-    conn.cursor().execute(f"CREATE DATABASE {db_name}")
     return conn
 
 def create_table(cur):
