@@ -5,7 +5,7 @@
 		"app": "cpd-quick-start-watson-machine-learning",
 		"template": "cpd-quick-start-watson-machine-learning"
 	},
-	"message": "The following service(s) have been created in your project: ${EVENT_SIMULATOR_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
+	"message": "The following service(s) have been created in your project: ${EVENT_PRODUCER_NAME} {MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
 	"metadata": {
 		"annotations": {
 			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
@@ -21,12 +21,66 @@
 	"objects": [
 		{
 			"apiVersion": "v1",
+			"kind": "Service",
+			"metadata": {
+				"annotations": {
+					"description": "Exposes and load balances the application pods"
+				},
+				"name": "${EVENT_PRODUCER_NAME}"
+			},
+			"spec": {
+				"ports": [
+					{
+						"name": "web",
+						"port": 8080,
+						"targetPort": 3000
+					}
+				],
+				"selector": {
+					"name": "${EVENT_PRODUCER_NAME}"
+				}
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "Service",
+			"metadata": {
+				"annotations": {
+					"description": "Exposes and load balances the application pods"
+				},
+				"name": "${MACHINE_LEARNING_SCORING_NAME}"
+			},
+			"spec": {
+				"ports": [
+					{
+						"name": "web",
+						"port": 8080,
+						"targetPort": 3000
+					}
+				],
+				"selector": {
+					"name": "${MACHINE_LEARNING_SCORING_NAME}"
+				}
+			}
+		},
+		{
+			"apiVersion": "v1",
 			"kind": "ImageStream",
 			"metadata": {
 				"annotations": {
 					"description": "Keeps track of changes in the application image"
 				},
-				"name": "${EVENT_SIMULATOR_NAME}"
+				"name": "${EVENT_PRODUCER_NAME}"
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "ImageStream",
+			"metadata": {
+				"annotations": {
+					"description": "Keeps track of changes in the application image"
+				},
+				"name": "${MACHINE_LEARNING_SCORING_NAME}"
 			}
 		},
 		{
@@ -37,17 +91,17 @@
 					"description": "Defines how to build the application",
 					"template.alpha.openshift.io/wait-for-ready": "true"
 				},
-				"name": "${EVENT_SIMULATOR_NAME}"
+				"name": "${EVENT_PRODUCER_NAME}"
 			},
 			"spec": {
 				"output": {
 					"to": {
 						"kind": "ImageStreamTag",
-						"name": "${EVENT_SIMULATOR_NAME}:latest"
+						"name": "${EVENT_PRODUCER_NAME}:latest"
 					}
 				},
 				"source": {
-                    "contextDir": "${CONTEXT_DIR}",
+                    "contextDir": "${EVENT_PRODUCER_CONTEXT_DIR}",
                     "git": {
                         "ref": "${SOURCE_REPOSITORY_REF}",
                         "uri": "${SOURCE_REPOSITORY_URL}"
@@ -60,7 +114,11 @@
                             {
                                 "name": "PIP_INDEX_URL",
                                 "value": "${PIP_INDEX_URL}"
-                            }
+                            },
+							{
+								"name": "UPGRADE_PIP_TO_LATEST",
+								"value": "true"
+							}
 						],
                         "from": {
                             "kind": "ImageStreamTag",
@@ -94,18 +152,89 @@
 		},
 		{
 			"apiVersion": "v1",
+			"kind": "BuildConfig",
+			"metadata": {
+				"annotations": {
+					"description": "Defines how to build the application",
+					"template.alpha.openshift.io/wait-for-ready": "true"
+				},
+				"name": "${MACHINE_LEARNING_SCORING_NAME}"
+			},
+			"spec": {
+				"output": {
+					"to": {
+						"kind": "ImageStreamTag",
+						"name": "${MACHINE_LEARNING_SCORING_NAME}:latest"
+					}
+				},
+				"source": {
+					"contextDir": "${ML_CONTEXT_DIR}",
+					"git": {
+						"ref": "${SOURCE_REPOSITORY_REF}",
+						"uri": "${SOURCE_REPOSITORY_URL}"
+					},
+					"type": "Git"
+				},
+				"strategy": {
+					"sourceStrategy": {
+						"env": [
+							{
+								"name": "PIP_INDEX_URL",
+								"value": "${PIP_INDEX_URL}"
+							},
+							{
+								"name": "PIP_INDEX_URL",
+								"value": "${PIP_INDEX_URL}"
+							},
+							{
+								"name": "UPGRADE_PIP_TO_LATEST",
+								"value": "true"
+							}
+						],
+						"from": {
+							"kind": "ImageStreamTag",
+							"name": "python:${PYTHON_VERSION}",
+							"namespace": "${NAMESPACE}"
+						}
+					},
+					"type": "Source"
+				},
+				"triggers": [
+					{
+						"type": "ImageChange"
+					},
+					{
+						"type": "ConfigChange"
+					},
+					{
+						"github": {
+							"secret": "${GITHUB_WEBHOOK_SECRET}"
+						},
+						"type": "GitHub"
+					},
+					{
+						"generic": {
+							"secret": "${GENERIC_WEBHOOK_SECRET}"
+						},
+						"type": "Generic"
+					}
+				]
+			}
+		},
+		{
+			"apiVersion": "v1",
 			"kind": "DeploymentConfig",
 			"metadata": {
 				"annotations": {
 					"description": "Defines how to deploy the service",
 					"template.alpha.openshift.io/wait-for-ready": "true"
 				},
-				"name": "${EVENT_SIMULATOR_NAME}"
+				"name": "${EVENT_PRODUCER_NAME}"
 			},
 			"spec": {
 				"replicas": 1,
 				"selector": {
-					"name": "${EVENT_SIMULATOR_NAME}"
+					"name": "${EVENT_PRODUCER_NAME}"
 				},
 				"strategy": {
 					"type": "Recreate"
@@ -113,14 +242,130 @@
 				"template": {
 					"metadata": {
 						"labels": {
-							"name": "${EVENT_SIMULATOR_NAME}"
+							"name": "${EVENT_PRODUCER_NAME}"
 						},
-						"name": "${EVENT_SIMULATOR_NAME}"
+						"name": "${EVENT_PRODUCER_NAME}"
 					},
 					"spec": {
 						"containers": [
 							{
-								"name": "reefer-container-simulator",
+								"name": "container-event-producer",
+								"image": " ",
+								"ports": [
+									{
+										"containerPort": 8080
+									}
+								],
+								"env": [
+									{
+										"name": "POSTGRESQL_HOST",
+										"value": "${POSTGRESQL_HOST}"
+									},
+									{
+										"name": "POSTGRESQL_PORT",
+										"value": "${POSTGRESQL_PORT}"
+									},
+									{
+										"name": "POSTGRESQL_USER",
+										"value": "${POSTGRESQL_USER}"
+									},
+									{
+										"name": "POSTGRESQL_PASSWORD",
+										"value": "${POSTGRESQL_PASSWORD}"
+									},
+									{
+										"name": "POSTGRESQL_DATABASE",
+										"value": "${POSTGRESQL_DATABASE}"
+									},
+									{
+										"displayName": "MongoDB database host",
+										"name": "MONGODB_HOST",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database port",
+										"name": "MONGODB_PORT",
+										"required": false,
+										"value": "27017"
+									},
+									{
+										"displayName": "MongoDB database user",
+										"name": "MONGODB_USER",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database password",
+										"name": "MONGODB_PASSWORD",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database name",
+										"name": "MONGODB_DATABASE",
+										"required": true
+									},
+									{
+										"name": "APP_FILE",
+										"value": "${EVENT_PRODUCER_APP_FILE}"
+									}
+								],
+								"resources": {
+									"limits": {
+										"memory": "${MEMORY_LIMIT}"
+									}
+								}
+							}
+						]
+					}
+				},
+				"triggers": [
+					{
+						"imageChangeParams": {
+							"automatic": true,
+							"containerNames": [
+								"container-event-producer"
+							],
+							"from": {
+								"kind": "ImageStreamTag",
+								"name": "${EVENT_PRODUCER_NAME}:latest"
+							}
+						},
+						"type": "ImageChange"
+					},
+					{
+						"type": "ConfigChange"
+					}
+				]
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "DeploymentConfig",
+			"metadata": {
+				"annotations": {
+					"description": "Defines how to deploy the service",
+					"template.alpha.openshift.io/wait-for-ready": "true"
+				},
+				"name": "${MACHINE_LEARNING_SCORING_NAME}"
+			},
+			"spec": {
+				"replicas": 1,
+				"selector": {
+					"name": "${MACHINE_LEARNING_SCORING_NAME}"
+				},
+				"strategy": {
+					"type": "Recreate"
+				},
+				"template": {
+					"metadata": {
+						"labels": {
+							"name": "${MACHINE_LEARNING_SCORING_NAME}"
+						},
+						"name": "${MACHINE_LEARNING_SCORING_NAME}"
+					},
+					"spec": {
+						"containers": [
+							{
+								"name": "watson-machine-learning-event-scorer",
 								"image": " ",
 								"ports": [
 									{
@@ -150,7 +395,7 @@
 									},
 									{
 										"name": "APP_FILE",
-										"value": "${APP_FILE}"
+										"value": "${WATSON_MACHINE_LEARNING_SCORER_APP_FILE}"
 									}
 								],
 								"resources": {
@@ -167,11 +412,11 @@
 						"imageChangeParams": {
 							"automatic": true,
 							"containerNames": [
-								"reefer-container-simulator"
+								"watson-machine-learning-event-scorer"
 							],
 							"from": {
 								"kind": "ImageStreamTag",
-								"name": "${EVENT_SIMULATOR_NAME}:latest"
+								"name": "${MACHINE_LEARNING_SCORING_NAME}:latest"
 							}
 						},
 						"type": "ImageChange"
@@ -187,16 +432,16 @@
 		{
 			"description": "The name of the producer service",
 			"displayName": "Event Producer Name",
-			"name": "EVENT_SIMULATOR_NAME",
+			"name": "EVENT_PRODUCER_NAME",
 			"required": true,
-			"value": "reefer-container-simulator"
+			"value": "container-event-producer"
 		},
 		{
-			"description": "Watson Machine Learnign scoring service",
+			"description": "Watson Machine Learning scoring service",
 			"displayName": "Watson Machine Learning Scoring Name ",
 			"name": "MACHINE_LEARNING_SCORING_NAME",
 			"required": true,
-			"value": "reefer-container-maintenance-predictor"
+			"value": "watson-machine-learning-event-scorer"
 		},
 		{
             "description": "Version of Python image to be used (3.6 or latest).",
@@ -232,6 +477,47 @@
 			"required": true
 		},
 		{
+			"displayName": "MongoDB database host",
+			"name": "MONGODB_HOST",
+			"required": true
+		},
+		{
+			"displayName": "MongoDB database port",
+			"name": "MONGODB_PORT",
+			"required": false,
+			"value": "27017"
+		},
+		{
+			"displayName": "MongoDB database user",
+			"name": "MONGODB_USER",
+			"required": true
+		},
+		{
+			"displayName": "MongoDB database password",
+			"name": "MONGODB_PASSWORD",
+			"required": true
+		},
+		{
+			"displayName": "MongoDB database name",
+			"name": "MONGODB_DATABASE",
+			"required": true
+		},
+		{
+			"displayName": "Watson Machine Learning host url",
+			"name": "WML_URL",
+			"required": true
+		},
+		{
+			"displayName": "Watson Machine Learning user",
+			"name": "WML_USER",
+			"required": true
+		},
+		{
+			"displayName": "Watson Machine Learning password",
+			"name": "WML_PASSWORD",
+			"required": true
+		},
+		{
 			"description": "The OpenShift Namespace where the ImageStream resides.",
 			"displayName": "Namespace",
 			"name": "NAMESPACE",
@@ -259,9 +545,15 @@
 		},
 		{
 			"description": "Set this to the relative path to your project if it is not in the root of your repository.",
-			"displayName": "Context Directory",
-			"name": "CONTEXT_DIR",
+			"displayName": "Context Directory for the event simulator",
+			"name": "EVENT_PRODUCER_CONTEXT_DIR",
 			"value": "reefer-container-simulator"
+		},
+		{
+			"description": "Set this to the relative path to your project if it is not in the root of your repository.",
+			"displayName": "Context Directory for Watson Machine Learning Scoring",
+			"name": "ML_CONTEXT_DIR",
+			"value": "reefer-container-maintenance-predictor"
 		},
 		{
 			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
@@ -284,10 +576,16 @@
             "value": ""
         },
 		{
-			"description": "The application file to run",
-			"displayName": "Application file",
-			"name": "APP_FILE",
+			"description": "The event producer application file to run",
+			"displayName": "Event Producer Application file",
+			"name": "EVENT_PRODUCER_APP_FILE",
 			"value": "container_events_producer.py"
+		},
+		{
+			"description": "The Watson Machine Learning scorer application file to run",
+			"displayName": "Watson Machine Learning Scorer Application file",
+			"name": "WATSON_MACHINE_LEARNING_SCORER_APP_FILE",
+			"value": "predict_maintenance.py"
 		}
 	]
 }
