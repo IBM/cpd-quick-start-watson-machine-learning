@@ -5,7 +5,7 @@
 		"app": "cpd-quick-start-watson-machine-learning",
 		"template": "cpd-quick-start-watson-machine-learning"
 	},
-	"message": "The following service(s) have been created in your project: ${EVENT_PRODUCER_NAME} {MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
+	"message": "The following service(s) have been created in your project: ${EVENT_PRODUCER_NAME} ${MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
 	"metadata": {
 		"annotations": {
 			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
