@@ -225,7 +225,7 @@
 			"displayName": "Postgres database host",
 			"name": "POSTGRESQL_HOST",
 			"required": true
-		},.
+		},
 		{
 			"displayName": "Postgres database port",
 			"name": "POSTGRESQL_PORT",
