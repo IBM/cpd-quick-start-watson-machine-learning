@@ -48,22 +48,22 @@ def connect_to_postgres_db():
 
 
 def get_cpd_config():
-    cpd_url = os.getenv('CPD_URL', False)
-    if not cpd_url:
-        sys.exit('missing CPD_URL env var')
+    wml_url = os.getenv('WML_URL', False)
+    if not wml_url:
+        sys.exit('missing WML_URL env var')
         return
 
-    cpd_user = os.getenv('CPD_USER', False)
-    if not cpd_user:
-        sys.exit('missing CPD_USER env var')
+    wml_user = os.getenv('WML_USER', False)
+    if not wml_user:
+        sys.exit('missing WML_USER env var')
         return
 
-    cpd_password = os.getenv('CPD_PASSWORD', False)
-    if not cpd_password:
-        sys.exit('missing CPD_PASSWORD env var')
+    wml_password = os.getenv('WML_PASSWORD', False)
+    if not wml_password:
+        sys.exit('missing WML_PASSWORD env var')
         return
 
-    return {"url": cpd_url, "user": cpd_user, "password": cpd_password}
+    return {"url": wml_url, "user": wml_user, "password": wml_password}
 
 
 def get_cpd_access_token(cpd_config):
@@ -84,24 +84,24 @@ def get_events(cur, last_timestamp_event):
 
 
 def connect_to_wml():
-    cpd_url = os.getenv('CPD_URL', False)
-    if not cpd_url:
-        sys.exit('missing CPD_URL env var')
+    wml_url = os.getenv('WML_URL', False)
+    if not wml_url:
+        sys.exit('missing WML_URL env var')
         return
 
-    cpd_user = os.getenv('CPD_USER', False)
-    if not cpd_user:
-        sys.exit('missing CPD_USER env var')
+    wml_user = os.getenv('WML_USER', False)
+    if not wml_user:
+        sys.exit('missing WML_USER env var')
         return
 
-    cpd_password = os.getenv('CPD_PASSWORD', False)
-    if not cpd_password:
-        sys.exit('missing CPD_PASSWORD env var')
+    wml_password = os.getenv('WML_PASSWORD', False)
+    if not wml_password:
+        sys.exit('missing WML_PASSWORD env var')
         return
     wml_credentials = {
-        "url": f"https://{cpd_url}",
-        "username": f"{cpd_user}",
-        "password": f"{cpd_password}",
+        "url": f"https://{wml_url}",
+        "username": f"{wml_user}",
+        "password": f"{wml_password}",
         "instance_id": "icp"
     }
     return WatsonMachineLearningAPIClient(wml_credentials)
