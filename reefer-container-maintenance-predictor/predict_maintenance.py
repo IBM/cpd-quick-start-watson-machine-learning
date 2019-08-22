@@ -17,7 +17,7 @@ from pymongo import MongoClient
 from bson.decimal128 import Decimal128
 
 TABLE_NAME = "reefer_container_events"
-CHECK_FOR_EVENTS_INTERVAL = 2.5
+CHECK_FOR_EVENTS_INTERVAL = 2
 
 
 def setup_logger():
@@ -125,7 +125,6 @@ def get_scoring_url(wml_client, model_details):
 
 
 def main():
-    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
     setup_logger()
     conn = None
     cur = None
@@ -135,6 +134,7 @@ def main():
         cur = conn.cursor(cursor_factory=DictCursor)
         cpd_config = get_cpd_config()
         logging.info('Obtaining WML Access token...')
+        requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
         cpd_access_token = get_cpd_access_token(cpd_config)
         logging.info('Connecting to WML...')
         wml_client = connect_to_wml()
@@ -166,7 +166,7 @@ def main():
                     last_timestamp_event = results[cur.rowcount - 1][0]
             time.sleep(CHECK_FOR_EVENTS_INTERVAL)
     except Exception as err:
-        logging.info(err)
+        logging.error(err)
     finally:
         if cur is not None:
             cur.close() 

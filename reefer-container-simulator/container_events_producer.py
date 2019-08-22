@@ -13,7 +13,6 @@ import os.path
 
 TABLE_NAME = "reefer_container_events"
 DATA_GENERATION_INTERVAL = 1.5
-EVENT_LIMIT = 100
 
 columns = []
 
@@ -91,9 +90,7 @@ def main():
         create_table(cur)
         logging.info("starting to produce data...")
         events = load_events_data()
-        event_count = 0
-        while event_count < EVENT_LIMIT:
-            event_count += 1
+        while True:
             for event in events:
                 sleep = DATA_GENERATION_INTERVAL
                 try:

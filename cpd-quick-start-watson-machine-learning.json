@@ -5,7 +5,7 @@
 		"app": "cpd-quick-start-watson-machine-learning",
 		"template": "cpd-quick-start-watson-machine-learning"
 	},
-	"message": "The following service(s) have been created in your project: ${EVENT_PRODUCER_NAME} ${MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
+	"message": "The following apps have been created in your project: ${EVENT_PRODUCER_NAME} ${MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
 	"metadata": {
 		"annotations": {
 			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
@@ -14,33 +14,11 @@
 			"openshift.io/documentation-url": "https://github.com/TBD",
 			"openshift.io/long-description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
 			"openshift.io/provider-display-name": "IBM",
-			"tags": "quickstart,python,postgres,watson,mongo",
+			"tags": "quickstart,python,postgres,watson,mongo"
 		},
 		"name": "cpd-quick-start-watson-machine-learning"
 	},
 	"objects": [
-		{
-			"apiVersion": "v1",
-			"kind": "Service",
-			"metadata": {
-				"annotations": {
-					"description": "Exposes and load balances the application pods"
-				},
-				"name": "${EVENT_PRODUCER_NAME}"
-			},
-			"spec": {
-				"ports": [
-					{
-						"name": "web",
-						"port": 8080,
-						"targetPort": 3000
-					}
-				],
-				"selector": {
-					"name": "${EVENT_PRODUCER_NAME}"
-				}
-			}
-		},
 		{
 			"apiVersion": "v1",
 			"kind": "Service",
@@ -183,10 +161,6 @@
 								"value": "${PIP_INDEX_URL}"
 							},
 							{
-								"name": "PIP_INDEX_URL",
-								"value": "${PIP_INDEX_URL}"
-							},
-							{
 								"name": "UPGRADE_PIP_TO_LATEST",
 								"value": "true"
 							}
@@ -251,11 +225,6 @@
 							{
 								"name": "container-event-producer",
 								"image": " ",
-								"ports": [
-									{
-										"containerPort": 8080
-									}
-								],
 								"env": [
 									{
 										"name": "POSTGRESQL_HOST",
