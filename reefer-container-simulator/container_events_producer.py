@@ -19,7 +19,7 @@ columns = []
 
 def create_table_command():
   return (f"""
-        CREATE TABLE {TABLE_NAME} (
+        CREATE TABLE IF NOT EXISTS {TABLE_NAME} (
                 timestamp TIMESTAMP,
                 id INTEGER,
                 temperature DECIMAL,
@@ -44,13 +44,21 @@ def insert_event(cur, columns, values):
     logging.debug(values)
     cur.execute(insert_statement, values)
 
+def create_database(cur):
+    params = config()
+    cur.execute(f"CREATE DATABASE {params['dbname']}")
 
 def connect_to_db():
     params = config()
     # connect to the PostgreSQL server
     logging.info('Connecting to PostgreSQL...')
+    del params["dbname"]
     conn = psycopg2.connect(**params)
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+    try:
+        create_database(conn.cursor())
+    except psycopg2.errors.DuplicateDatabase as err:
+        logging.info(err)
     return conn
 
 def create_table(cur):
