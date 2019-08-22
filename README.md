@@ -37,7 +37,7 @@ First, list the parameters that you can override:
 
         $ oc process --parameters -f https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json
 
-### Document required parameters
+### required parameters
 
 notice the `WORKSPACE_ID` optional parameter - you can start this app with an existing workspace, if left blank the first existing workspace will be used, or a new workspace will be created. [How to find existing workspace ID](#how-to-find-existing-workspace-id)
 
