@@ -33,7 +33,7 @@ Set your current project, for example:
 
 Create the app from the [cpd-quick-start-watson-machine-learning.json](cpd-quick-start-watson-machine-learning.json) template by using the `-f` flag and pointing the tool at a path to the template file. Learn more about [OpenShift templates](https://docs.openshift.com/enterprise/3.0/dev_guide/templates.html#dev-guide-templates).
 
-First, list the parameters that you can override:
+First, list the parameters that you can use:
 
         $ oc process --parameters -f https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json
 
@@ -45,17 +45,17 @@ Create the app from the template:
 
         $ oc new-app -f \
         https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json \
-        -p POSTGRESQL_HOST=postgresql.project-from-office.svc \
-        -p POSTGRESQL_USER=postgres \
-        -p POSTGRESQL_PASSWORD=devx \
-        -p POSTGRESQL_DATABASE=sampledb \
-        -p MONGODB_HOST=mongodb.project-from-office.svc \
-        -p MONGODB_USER=mongodb \
-        -p MONGODB_PASSWORD=devx \
-        -p MONGODB_DATABASE=sampledb \
-        -p ICP4D_CLUSTER_HOST=icp4d-contest2-master-1.fyre.ibm.com \
-        -p ICP4D_CLUSTER_USER=admin \
-        -p ICP4D_CLUSTER_PASSWORD=password 
+        -p POSTGRESQL_HOST=<POSTGRESQL_HOST> \
+        -p POSTGRESQL_USER=<POSTGRESQL_USER> \
+        -p POSTGRESQL_PASSWORD=<POSTGRESQL_PASSWORD> \
+        -p POSTGRESQL_DATABASE=<POSTGRESQL_DATABASE_NAME>\
+        -p MONGODB_HOST=<MONGO_HOST> \
+        -p MONGODB_USER=<MONGO_USER> \
+        -p MONGODB_PASSWORD=<MONGO_PASSWORD> \
+        -p MONGODB_DATABASE=<MONGO_DATABASE_NAME> \
+        -p ICP4D_CLUSTER_HOST=<ICP4D_CLUSTER_HOST> \
+        -p ICP4D_CLUSTER_USER=<ICP4D_CLUSTER_USER> \
+        -p ICP4D_CLUSTER_PASSWORD=<ICP4D_CLUSTER_PASSWORD> 
 
 #### Build the app
 
