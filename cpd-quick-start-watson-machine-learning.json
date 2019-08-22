@@ -278,32 +278,6 @@
 										"value": "${POSTGRESQL_DATABASE}"
 									},
 									{
-										"displayName": "MongoDB database host",
-										"name": "MONGODB_HOST",
-										"required": true
-									},
-									{
-										"displayName": "MongoDB database port",
-										"name": "MONGODB_PORT",
-										"required": false,
-										"value": "27017"
-									},
-									{
-										"displayName": "MongoDB database user",
-										"name": "MONGODB_USER",
-										"required": true
-									},
-									{
-										"displayName": "MongoDB database password",
-										"name": "MONGODB_PASSWORD",
-										"required": true
-									},
-									{
-										"displayName": "MongoDB database name",
-										"name": "MONGODB_DATABASE",
-										"required": true
-									},
-									{
 										"name": "APP_FILE",
 										"value": "${EVENT_PRODUCER_APP_FILE}"
 									}
@@ -392,6 +366,32 @@
 									{
 										"name": "POSTGRESQL_DATABASE",
 										"value": "${POSTGRESQL_DATABASE}"
+									},
+									{
+										"displayName": "MongoDB database host",
+										"name": "MONGODB_HOST",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database port",
+										"name": "MONGODB_PORT",
+										"required": false,
+										"value": "27017"
+									},
+									{
+										"displayName": "MongoDB database user",
+										"name": "MONGODB_USER",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database password",
+										"name": "MONGODB_PASSWORD",
+										"required": true
+									},
+									{
+										"displayName": "MongoDB database name",
+										"name": "MONGODB_DATABASE",
+										"required": true
 									},
 									{
 										"name": "APP_FILE",
