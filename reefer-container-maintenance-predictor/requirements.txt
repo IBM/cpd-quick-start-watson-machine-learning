@@ -1,6 +1,7 @@
-watson_machine_learning_client
-scikit-learn==0.19.1
+scikit-learn==0.19
+scipy
 pandas
 psycopg2-binary
 requests
 pymongo
+watson_machine_learning_client
