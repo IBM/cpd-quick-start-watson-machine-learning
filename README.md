@@ -37,7 +37,7 @@ First, list the parameters that you can override:
 
         $ oc process --parameters -f https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json
 
-# Document required parameters
+### Document required parameters
 
 notice the `WORKSPACE_ID` optional parameter - you can start this app with an existing workspace, if left blank the first existing workspace will be used, or a new workspace will be created. [How to find existing workspace ID](#how-to-find-existing-workspace-id)
 
@@ -68,18 +68,18 @@ Check the status of your new nodejs app with the command:
         
 Which should return something like:
 
-        In project My Project (my-project) on server https://10.2.2.2:8443
-
-         svc/watson-assistant-quickstart - 172.30.108.183:8080
-          dc/watson-assistant-quickstart deploys istag/watson-assistant-quickstart:latest <-
-            bc/watson-assistant-quickstart source builds https://github.ibm.com/icp4d-devex-prototype/cpd-quickstart-watson-assistant on openshift/nodejs:10
-              build #1 running for 7 seconds
-            deployment #1 waiting on image or update        
+       In project project-from-office on server https://192.168.64.3:8443
+     
+       svc/watson-machine-learning-event-scorer - 172.30.223.123:8080 -> 3000
+         dc/watson-machine-learning-event-scorer deploys istag/watson-machine-learning-event-scorer:latest <-
+           bc/watson-machine-learning-event-scorer source builds https://github.com/estherhi/cpd-quick-start-watson-machine-learning on openshift/python:3.6 
+             build #1 failed 40 seconds ago
+           deployment #1 waiting on image or update      
         
         
 If the build is not yet started (you can check by running `oc get builds`), start one and stream the logs with:
 
-        $ oc start-build watson-assistant-quickstart --follow
+        $ oc start-build watson-machine-learning-event-scorer --follow
         
 #### Deploy the app
 
@@ -87,13 +87,6 @@ Deployment happens automatically once the new application image is available.  T
 
         $ oc get svc
         
-        
-This will help indicate what IP address the service is running, the default port for it to deploy at is 8080. Output should look like:
-
-        NAME                          CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-        watson-assistant-quickstart   172.30.249.251   <none>        8080/TCP   7m                
-
-
 #### Routing
 
 
