@@ -337,30 +337,41 @@
 										"value": "${POSTGRESQL_DATABASE}"
 									},
 									{
-										"displayName": "MongoDB database host",
 										"name": "MONGODB_HOST",
-										"required": true
+										"value": "${MONGODB_HOST}"
 									},
 									{
-										"displayName": "MongoDB database port",
+
 										"name": "MONGODB_PORT",
-										"required": false,
-										"value": "27017"
+										"value": "${MONGODB_PORT}"
 									},
 									{
-										"displayName": "MongoDB database user",
 										"name": "MONGODB_USER",
-										"required": true
+										"value": "${MONGODB_USER}"
 									},
 									{
-										"displayName": "MongoDB database password",
 										"name": "MONGODB_PASSWORD",
-										"required": true
+										"value": "${MONGODB_USER}"
 									},
 									{
-										"displayName": "MongoDB database name",
 										"name": "MONGODB_DATABASE",
-										"required": true
+										"value": "${MONGODB_VALUE}"
+									},
+									{
+										"name": "ICP4D_CLUSTER_HOST",
+										"value": "${ICP4D_CLUSTER_HOST}"
+									},
+									{
+										"name": "ICP4D_CLUSTER_PORT",
+										"value": "${ICP4D_CLUSTER_PORT}"
+									},
+									{
+										"name": "ICP4D_CLUSTER_USER",
+										"value": "${ICP4D_CLUSTER_USER}"
+									},
+									{
+										"name": "ICP4D_CLUSTER_PASSWORD",
+										"value": "${ICP4D_CLUSTER_PASSWORD}"
 									},
 									{
 										"name": "APP_FILE",
@@ -472,18 +483,24 @@
 			"required": true
 		},
 		{
-			"displayName": "Watson Machine Learning host url",
-			"name": "WML_URL",
+			"displayName": "Cloud Pak for Data host where Watson Machine Learning is hosted",
+			"name": "ICP4D_CLUSTER_HOST",
 			"required": true
 		},
 		{
-			"displayName": "Watson Machine Learning user",
-			"name": "WML_USER",
+			"displayName": "Cloud Pak for Data url where Watson Machine Learning is hosted",
+			"name": "ICP4D_CLUSTER_PORT",
+			"required": true,
+			"value": "31843"
+		},
+		{
+			"displayName": "Cloud Pak for Data user where Watson Machine Learning is hosted",
+			"name": "ICP4D_CLUSTER_USER",
 			"required": true
 		},
 		{
-			"displayName": "Watson Machine Learning password",
-			"name": "WML_PASSWORD",
+			"displayName": "Cloud Pak for Data password where Watson Machine Learning is hosted",
+			"name": "ICP4D_CLUSTER_PASSWORD",
 			"required": true
 		},
 		{

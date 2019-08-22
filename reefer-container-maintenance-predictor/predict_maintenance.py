@@ -49,26 +49,31 @@ def connect_to_postgres_db():
 
 
 def get_cpd_config():
-    wml_url = os.getenv('WML_URL', False)
+    wml_url = os.getenv('ICP4D_CLUSTER_HOST', False)
     if not wml_url:
-        sys.exit('missing WML_URL env var')
+        sys.exit('missing ICP4D_CLUSTER_HOST env var')
         return
 
-    wml_user = os.getenv('WML_USER', False)
+    wml_port = os.getenv('ICP4D_CLUSTER_PORT', False)
+    if not wml_port:
+        sys.exit('missing ICP4D_CLUSTER_PORT env var')
+        return
+
+    wml_user = os.getenv('ICP4D_CLUSTER_USER', False)
     if not wml_user:
-        sys.exit('missing WML_USER env var')
+        sys.exit('missing ICP4D_CLUSTER_USER env var')
         return
 
-    wml_password = os.getenv('WML_PASSWORD', False)
+    wml_password = os.getenv('ICP4D_CLUSTER_PASSWORD', False)
     if not wml_password:
-        sys.exit('missing WML_PASSWORD env var')
+        sys.exit('missing ICP4D_CLUSTER_PASSWORD env var')
         return
 
-    return {"url": wml_url, "user": wml_user, "password": wml_password}
+    return {"url": wml_url, "port": wml_port, "user": wml_user, "password": wml_password}
 
 
 def get_cpd_access_token(cpd_config):
-    auto_request = requests.get(f"https://{cpd_config['url']}:31843/v1/preauth/validateAuth",
+    auto_request = requests.get(f"https://{cpd_config['url']}:{cpd_config['port']}/v1/preauth/validateAuth",
                                 auth=(cpd_config['user'], cpd_config['password']), verify=False)
     return auto_request.json()['accessToken']
 
@@ -85,20 +90,26 @@ def get_events(cur, last_timestamp_event):
 
 
 def connect_to_wml():
-    wml_url = os.getenv('WML_URL', False)
+    wml_url = os.getenv('ICP4D_CLUSTER_HOST', False)
     if not wml_url:
-        sys.exit('missing WML_URL env var')
+        sys.exit('missing ICP4D_CLUSTER_HOST env var')
         return
 
-    wml_user = os.getenv('WML_USER', False)
+    wml_port = os.getenv('ICP4D_CLUSTER_PORT', False)
+    if not wml_port:
+        sys.exit('missing ICP4D_CLUSTER_PORT env var')
+        return
+
+    wml_user = os.getenv('ICP4D_CLUSTER_USER', False)
     if not wml_user:
-        sys.exit('missing WML_USER env var')
+        sys.exit('missing ICP4D_CLUSTER_USER env var')
         return
 
-    wml_password = os.getenv('WML_PASSWORD', False)
+    wml_password = os.getenv('ICP4D_CLUSTER_PASSWORD', False)
     if not wml_password:
-        sys.exit('missing WML_PASSWORD env var')
+        sys.exit('missing ICP4D_CLUSTER_PASSWORD env var')
         return
+
     wml_credentials = {
         "url": f"https://{wml_url}",
         "username": f"{wml_user}",
