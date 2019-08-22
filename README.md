@@ -35,7 +35,7 @@ Create the app from the [cpd-quick-start-watson-machine-learning.json](cpd-quick
 
 First, list the parameters that you can use:
 
-        $ oc process --parameters -f https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json
+        $ oc process --parameters -f https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/openshift/templates/cpd-quick-start-watson-machine-learning.json
 
 ### required parameters
 
@@ -44,7 +44,7 @@ notice the `WORKSPACE_ID` optional parameter - you can start this app with an ex
 Create the app from the template:
 
         $ oc new-app -f \
-        https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/cpd-quick-start-watson-machine-learning.json \
+        https://raw.githubusercontent.com/estherhi/cpd-quick-start-watson-machine-learning/master/openshift/templates/cpd-quick-start-watson-machine-learning.json \
         -p POSTGRESQL_HOST=<POSTGRESQL_HOST> \
         -p POSTGRESQL_USER=<POSTGRESQL_USER> \
         -p POSTGRESQL_PASSWORD=<POSTGRESQL_PASSWORD> \
