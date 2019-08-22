@@ -50,16 +50,20 @@ def create_database(cur):
 
 def connect_to_db():
     params = config()
-    # connect to the PostgreSQL server
+    orig_params = params.copy()
+    # connect to the PostgreSQL server without database and then attempt to create db since there is no error code returned
+    # for connecting to db that does not exist.
     logging.info('Connecting to PostgreSQL...')
     del params["dbname"]
     conn = psycopg2.connect(**params)
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     try:
         create_database(conn.cursor())
-        conn = psycopg2.connect(**params) # reconnect now that db is ensured
     except psycopg2.errors.DuplicateDatabase as err:
         logging.info(err)
+    finally:
+        conn = psycopg2.connect(**orig_params) # reconnect now that db is ensured
+        conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     return conn
 
 def create_table(cur):
