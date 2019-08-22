@@ -14,6 +14,7 @@ import os
 from watson_machine_learning_client import WatsonMachineLearningAPIClient
 import pickle
 from pymongo import MongoClient
+from bson.decimal128 import Decimal128
 
 TABLE_NAME = "reefer_container_events"
 CHECK_FOR_EVENTS_INTERVAL = 2.5
@@ -119,7 +120,7 @@ def store_model_in_wml(wml_client):
 
 def get_scoring_url(wml_client, model_details):
     model_uid = wml_client.repository.get_model_uid(model_details)
-    deployment_details = wml_client.deployments.create(model_uid, "reefer maintenance model deployment")
+    deployment_details = wml_client.deployments.create(model_uid, "reefer container maintenance model deployment")
     return wml_client.deployments.get_scoring_url(deployment_details)
 
 
@@ -155,7 +156,11 @@ def main():
                     online_scoring_request = requests.post(
                         scoring_url, headers=headers, verify=False, json=scoring_payload)
                     prediction = online_scoring_request.json()
-                    prediction_row = {'id': row['id'], 'maintenance_required': prediction['values'][0][0]}
+                    prediction_row = {'id': row['id'],
+                                      'temperature': Decimal128(row['temperature']),
+                                      'cumulative_power_consumption': Decimal128(row['cumulative_power_consumption']),
+                                      'humidity': Decimal128(row['humidity']),
+                                      'maintenance_required': prediction['values'][0][0]}
                     logging.debug(prediction_row)
                     predictions.insert_one(prediction_row)
                     last_timestamp_event = results[cur.rowcount - 1][0]
@@ -164,7 +169,7 @@ def main():
         logging.info(err)
     finally:
         if cur is not None:
-            cur.close()
+            cur.close() 
         if conn is not None:
             conn.close()
             logging.info('Database connection closed.')
