@@ -355,7 +355,7 @@
 									},
 									{
 										"name": "MONGODB_DATABASE",
-										"value": "${MONGODB_VALUE}"
+										"value": "${MONGODB_DATABASE}"
 									},
 									{
 										"name": "ICP4D_CLUSTER_HOST",
