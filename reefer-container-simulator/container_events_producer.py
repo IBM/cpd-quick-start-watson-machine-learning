@@ -57,6 +57,7 @@ def connect_to_db():
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     try:
         create_database(conn.cursor())
+        conn = psycopg2.connect(**params) # reconnect now that db is ensured
     except psycopg2.errors.DuplicateDatabase as err:
         logging.info(err)
     return conn
