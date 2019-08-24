@@ -5,16 +5,16 @@
 		"app": "cpd-quick-start-watson-machine-learning",
 		"template": "cpd-quick-start-watson-machine-learning"
 	},
-	"message": "The following apps have been created in your project: ${EVENT_PRODUCER_NAME} ${MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/TBD/master/README.md.",
+	"message": "The following apps have been created in your project: ${EVENT_PRODUCER_NAME} and ${MACHINE_LEARNING_SCORING_NAME}.\n\nFor more information about using this template see https://github.com/estherhi/cpd-quick-start-watson-machine-learning.",
 	"metadata": {
 		"annotations": {
-			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
+			"description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/estherhi/cpd-quick-start-watson-machine-learning",
 			"iconClass": "icon-python",
 			"openshift.io/display-name": "CPD Quick Start Watson Machine Learning",
 			"openshift.io/documentation-url": "https://github.com/TBD",
-			"openshift.io/long-description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/TBD/master/README.md.",
+			"openshift.io/long-description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/estherhi/cpd-quick-start-watson-machine-learning",
 			"openshift.io/provider-display-name": "IBM",
-			"tags": "quickstart,python,postgres,watson,mongo"
+			"tags": "quickstart,python,postgreSQL,watson, watson machine learning,mongoDB"
 		},
 		"name": "cpd-quick-start-watson-machine-learning"
 	},
