@@ -14,7 +14,7 @@
 			"openshift.io/documentation-url": "https://github.com/TBD",
 			"openshift.io/long-description": "A sample application demonstrating Watson Machine Learning. For more information about using this template see https://github.com/estherhi/cpd-quick-start-watson-machine-learning",
 			"openshift.io/provider-display-name": "IBM",
-			"tags": "quickstart,python,postgreSQL,watson, watson machine learning,mongoDB"
+			"tags": "quickstart,python,postgreSQL,watson,watson-machine-learning,mongoDB"
 		},
 		"name": "cpd-quick-start-watson-machine-learning"
 	},
