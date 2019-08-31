@@ -30,5 +30,5 @@ def mongo_config():
         return
 
 
-    connection_string = f"mongodb://{user}:{password}@{host}:{port}"
+    connection_string = f"mongodb://{user}:{password}@{host}:{port}/{database}"
     return {'connection_string': connection_string, 'database': database}

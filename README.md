@@ -15,7 +15,7 @@ Installing the Watson Machine Learning add-on - [instructions](https://docs-icpd
 
 Installing the PostgreSQL add-on [instructions](https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/zen/admin/create-db.html) see the PostgreSQL section.
 
-Installing the MondoDB add-on - [instructions](https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/zen/admin/create-db.html) see the MongoDB section.
+Installing the MondoDB add-on [instructions](https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/zen/admin/create-db.html) see the MongoDB section.
 
 ### Create your own copy of this repo
 Fork a copy of [cpd-quick-start-watson-machine-learning](https://github.com/estherhi/cpd-quick-start-watson-machine-learning)
