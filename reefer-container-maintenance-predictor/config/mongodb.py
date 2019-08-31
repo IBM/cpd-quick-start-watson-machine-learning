@@ -1,7 +1,5 @@
 import os
 import sys
-import urllib
-
 
 def mongo_config():
     host = os.getenv('MONGODB_HOST', False)
