@@ -158,7 +158,6 @@ def main():
         feature_cols = ['temperature', 'cumulative_power_consumption', 'humidity']
 
         while True:
-            predictions = connect_to_mongo_db() # issue on cluster reconnect
             results = get_events(cur, last_timestamp_event)
             if cur.rowcount > 0:
                 for row in results:
@@ -172,8 +171,9 @@ def main():
                                       'cumulative_power_consumption': Decimal128(row['cumulative_power_consumption']),
                                       'humidity': Decimal128(row['humidity']),
                                       'maintenance_required': prediction['values'][0][0]}
+                    predictions = connect_to_mongo_db() # issue on cluster reconnect
                     predictions.insert_one(prediction_row)
-                    details = predictions.find_one({'id': id})
+                    logging.debug(prediction_row)
                     last_timestamp_event = results[cur.rowcount - 1][0]
             time.sleep(CHECK_FOR_EVENTS_INTERVAL)
     except Exception as err:
