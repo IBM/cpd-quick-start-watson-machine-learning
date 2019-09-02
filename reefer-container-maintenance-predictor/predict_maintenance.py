@@ -140,6 +140,17 @@ def main():
     conn = None
     cur = None
     try:
+        client = connect_to_mongo_db()
+        db = client[mongo_config()['database']]
+        print("database name " + db.name)
+        predictions = db['reefer_container_predictions']
+        id = '1234'
+        prediction_row = {'id': id,
+                          'maintenance_required': 'true'}
+        predictions.insert_one(prediction_row)
+        details = predictions.find_one({'id': id})
+        logging.debug(details)
+
         conn = connect_to_postgres_db()
         cur = conn.cursor(cursor_factory=DictCursor)
         cpd_config = get_cpd_config()
@@ -158,7 +169,9 @@ def main():
         feature_cols = ['temperature', 'cumulative_power_consumption', 'humidity']
 
         while True:
+            logging.debug("quering postgres for events")
             results = get_events(cur, last_timestamp_event)
+            logging.debug("got results")
             if cur.rowcount > 0:
                 for row in results:
                     values = [str(row[k]) for k in feature_cols]
@@ -172,6 +185,7 @@ def main():
                                       'humidity': Decimal128(row['humidity']),
                                       'maintenance_required': prediction['values'][0][0]}
                     predictions = connect_to_mongo_db() # issue on cluster reconnect
+                    logging.debug(predictions)
                     predictions.insert_one(prediction_row)
                     logging.debug(prediction_row)
                     last_timestamp_event = results[cur.rowcount - 1][0]
