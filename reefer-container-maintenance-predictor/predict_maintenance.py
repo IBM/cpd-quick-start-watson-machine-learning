@@ -180,6 +180,7 @@ def main():
                     online_scoring_request = requests.post(
                         scoring_url, headers=headers, verify=False, json=scoring_payload)
                     prediction = online_scoring_request.json()
+                    logging.debug("simple insert!")
                     prediction_row = {'id': id,
                                       'maintenance_required': 'true'}
                     predictions.insert_one(prediction_row)
