@@ -34,7 +34,7 @@ def connect_to_mongo_db():
     logging.info('Connecting to MONGODB ' + mongo_config()['connection_string'])
     mongo_client = MongoClient(mongo_config()['connection_string'])
     db = mongo_client[mongo_config()['database']]
-    predictions = db['reefer_container_maintenance_predictions']
+    predictions = db['container_maintenance_predictions']
     return predictions
 
 
