@@ -179,10 +179,11 @@ def main():
                     online_scoring_request = requests.post(
                         scoring_url, headers=headers, verify=False, json=scoring_payload)
                     prediction = online_scoring_request.json()
+                    prediction_row = {'id': id,
+                                      'maintenance_required': 'true'}
+                    predictions.insert_one(prediction_row)
+                    logging.debug("simple insert works!")
                     prediction_row = {'id': row['id'],
-                                      'temperature': Decimal128(row['temperature']),
-                                      'cumulative_power_consumption': Decimal128(row['cumulative_power_consumption']),
-                                      'humidity': Decimal128(row['humidity']),
                                       'maintenance_required': prediction['values'][0][0]}
                     predictions = connect_to_mongo_db() # issue on cluster reconnect
                     logging.debug(predictions)
