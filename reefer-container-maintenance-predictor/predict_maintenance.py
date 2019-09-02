@@ -14,7 +14,7 @@ import os
 from watson_machine_learning_client import WatsonMachineLearningAPIClient
 import pickle
 from pymongo import MongoClient
-from bson.decimal128 import Decimal128
+import decimal
 
 TABLE_NAME = "reefer_container_events"
 CHECK_FOR_EVENTS_INTERVAL = 2
@@ -141,18 +141,8 @@ def main():
     conn = None
     cur = None
     try:
-        client = connect_to_mongo_db()
-        db = client[mongo_config()['database']]
-        print("database name " + db.name)
-        predictions = db['reefer_container_predictions']
-        id = '1234'
-        prediction_row = {'id': id,
-                          'maintenance_required': 'true'}
-        predictions.insert_one(prediction_row)
-        details = predictions.find_one({'id': id})
-        logging.debug(details)
-
         conn = connect_to_postgres_db()
+        predictions = connect_to_mongo_db()
         cur = conn.cursor(cursor_factory=DictCursor)
         cpd_config = get_cpd_config()
         logging.info('Obtaining WML Access token...')
@@ -170,9 +160,7 @@ def main():
         feature_cols = ['temperature', 'cumulative_power_consumption', 'humidity']
 
         while True:
-            logging.debug("quering postgres for events")
             results = get_events(cur, last_timestamp_event)
-            logging.debug("got results")
             if cur.rowcount > 0:
                 for row in results:
                     values = [str(row[k]) for k in feature_cols]
@@ -180,15 +168,12 @@ def main():
                     online_scoring_request = requests.post(
                         scoring_url, headers=headers, verify=False, json=scoring_payload)
                     prediction = online_scoring_request.json()
-                    logging.debug("simple insert!")
-                    prediction_row = {'id': id,
-                                      'maintenance_required': 'true'}
-                    predictions.insert_one(prediction_row)
-                    logging.debug("simple insert works!")
                     prediction_row = {'id': row['id'],
+                                      'temperature': str(row['temperature']),
+                                      'cumulative_power_consumption': str(row['cumulative_power_consumption']),
+                                      'humidity': str(row['humidity']),
                                       'maintenance_required': prediction['values'][0][0]}
-                    predictions = connect_to_mongo_db() # issue on cluster reconnect
-                    logging.debug(predictions)
+                    decimal.Decimal('10.0')
                     predictions.insert_one(prediction_row)
                     logging.debug(prediction_row)
                     last_timestamp_event = results[cur.rowcount - 1][0]
