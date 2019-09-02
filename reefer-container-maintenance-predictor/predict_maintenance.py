@@ -141,7 +141,6 @@ def main():
     cur = None
     try:
         conn = connect_to_postgres_db()
-        predictions = connect_to_mongo_db()
         cur = conn.cursor(cursor_factory=DictCursor)
         cpd_config = get_cpd_config()
         logging.info('Obtaining WML Access token...')
@@ -159,6 +158,7 @@ def main():
         feature_cols = ['temperature', 'cumulative_power_consumption', 'humidity']
 
         while True:
+            predictions = connect_to_mongo_db() # issue on cluster reconnect
             results = get_events(cur, last_timestamp_event)
             if cur.rowcount > 0:
                 for row in results:
@@ -172,8 +172,8 @@ def main():
                                       'cumulative_power_consumption': Decimal128(row['cumulative_power_consumption']),
                                       'humidity': Decimal128(row['humidity']),
                                       'maintenance_required': prediction['values'][0][0]}
-                    logging.debug(prediction_row)
                     predictions.insert_one(prediction_row)
+                    details = predictions.find_one({'id': id})
                     last_timestamp_event = results[cur.rowcount - 1][0]
             time.sleep(CHECK_FOR_EVENTS_INTERVAL)
     except Exception as err:
