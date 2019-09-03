@@ -1,0 +1,36 @@
+/*******************************************************************************
+ *
+ * IBM Confidential
+ * OCO Source Materials
+ * (C) Copyright IBM Corp. 2015, 2019
+ *
+ * The source code for this program is not published or otherwise divested of its trade secrets, 
+ * irrespective of what has been deposited with the U.S. Copyright Office.
+ *
+ *******************************************************************************/
+
+#resultsTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#resultsTable td, #resultsTable th {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+#resultsTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #006699;
+    color: white;
+}
+
+#resultsTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#resultsTable tr:hover {
+    background-color: #ddd;
+}
