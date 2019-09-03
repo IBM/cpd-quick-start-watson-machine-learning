@@ -1,0 +1,29 @@
+<!--
+IBM Confidential
+OCO Source Materials
+(C) Copyright IBM Corp. 2015, 2019
+    
+The source code for this program is not published or otherwise divested of its trade secrets, 
+irrespective of what has been deposited with the U.S. Copyright Office.
+-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Scoring Result</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type=text/javascript src="{{ url_for('static', filename='js/main.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+
+    <body>
+        <table id="resultsTable">
+            <tr>
+                <th>Event Time</th>
+                <th>ID</th>
+                <th>Maintenance Required</th>
+            </tr>
+        </table>
+
+    </body>
+</html>
