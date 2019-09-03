@@ -2,7 +2,8 @@
 
 The CPD Watson Machine Learning Quick Start demonstrates use of PostgreSQL, Watson Machine Learning and MongoDB on Cloud Pak for Data. 
 In this example we have one application producing events from reefer refrigeration containers capturing key data points such as temperature, humidity, cumulative power consumption. The data is stored in a PostgreSQL database.
-The second application persists and deploys a pickled scikit-learn model to a Watson Machine Learning instance in the Cloud Pack for Data host, and then scores the data in the PostgreSQL database to determine whether the container requires maintenance. The results are stored in a MongoDB.
+The second application persists and deploys a pickled scikit-learn model to a Watson Machine Learning instance in the Cloud Pack for Data host, and then scores the data in the PostgreSQL database to determine whether the container requires maintenance. 
+The results are stored in a MongoDB and displayed in a web application.
 
 ![Diagram](readme_images/arch_diagram.jpg)
                      
@@ -26,7 +27,7 @@ Fork a copy of [cpd-quick-start-watson-machine-learning](https://github.com/esth
 
 ### Creating a project
 
-AAfter logging in with `oc login`, if you don't have a project setup all ready, go ahead and take care of that:
+After logging in with `oc login`, if you don't have a project setup all ready, go ahead and take care of that:
  
          $ oc new-project my-project --display-name="My Project"
  
@@ -117,7 +118,8 @@ To create a new route at a host name, like www.example.com:
 #### Success
 
 You should now have two applications: one producing events and storing it in the reefer_container_events table in PostgreSQL database you had configured.  
-The other application persists and deploys a pickled model that predicts maintenance in the Watson Machine Learning instance. The results are stored in the MongoDB database. 
+The other application persists and deploys a pickled model that predicts maintenance in the Watson Machine Learning instance. 
+The results are stored in the MongoDB database and displayed in a web application.
 
 ### Adding Webhooks and Making Code Changes
 Assuming you used the URL of your own forked repository, you can configure your github repository to make a webhook call whenever you push your code. Learn more about [Webhook Triggers](https://docs.openshift.com/container-platform/3.5/dev_guide/builds/triggering_builds.html#webhook-triggers).
