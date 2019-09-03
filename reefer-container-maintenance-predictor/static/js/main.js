@@ -19,10 +19,16 @@ function addResultsToTable(results) {
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
 
         cell1.innerHTML = (new Date(res.timestamp)).toUTCString();
         cell2.innerHTML = res.id;
-        cell3.innerHTML = res.maintenance_required;
+        cell3.innerHTML = res.temperature;
+        cell4.innerHTML = res.cumulative_power_consumption;
+        cell5.innerHTML = res.humidity;
+        cell6.innerHTML = res.maintenance_required;
     }
 }
 

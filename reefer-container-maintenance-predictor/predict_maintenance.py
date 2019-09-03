@@ -54,6 +54,9 @@ def get_scoring_result():
             cur_doc_timestamp = get_datetime_millis(doc["date"])
             results.append({
                 "id": doc["id"],
+                "temperature": doc["temperature"],
+                "cumulative_power_consumption": doc["cumulative_power_consumption"],
+                "humidity": doc["humidity"],
                 "maintenance_required": doc["maintenance_required"],
                 "timestamp": cur_doc_timestamp
             })
