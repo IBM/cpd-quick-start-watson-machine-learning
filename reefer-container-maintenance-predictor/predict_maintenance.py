@@ -7,7 +7,6 @@ import logging
 from config.postgres import config
 from config.mongodb import mongo_config
 import datetime
-import time
 import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 import os
@@ -266,4 +265,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=3000)
