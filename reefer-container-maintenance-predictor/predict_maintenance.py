@@ -243,7 +243,7 @@ def set_wml_scoring_url():
 
 def set_prediction_job():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(func=predict, trigger="interval", seconds=3)
+    scheduler.add_job(func=predict, trigger="interval", seconds=CHECK_FOR_EVENTS_INTERVAL)
     scheduler.start()
     # Shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())
