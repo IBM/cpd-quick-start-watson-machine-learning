@@ -43,6 +43,20 @@
 		},
 		{
 			"apiVersion": "v1",
+			"kind": "Route",
+			"metadata": {
+				"name": "${MACHINE_LEARNING_SCORING_NAME}"
+			},
+			"spec": {
+				"host": "${APPLICATION_DOMAIN}",
+				"to": {
+					"kind": "Service",
+					"name": "${MACHINE_LEARNING_SCORING_NAME}"
+				}
+			}
+		},
+		{
+			"apiVersion": "v1",
 			"kind": "ImageStream",
 			"metadata": {
 				"annotations": {
@@ -540,6 +554,12 @@
 			"displayName": "Context Directory for Watson Machine Learning Scoring",
 			"name": "ML_CONTEXT_DIR",
 			"value": "reefer-container-maintenance-predictor"
+		},
+		{
+			"description": "The exposed hostname that will route to the Python Watson Machine Learning scoring service, if left blank a value will be defaulted.",
+			"displayName": "Application Hostname",
+			"name": "APPLICATION_DOMAIN",
+			"value": ""
 		},
 		{
 			"description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
