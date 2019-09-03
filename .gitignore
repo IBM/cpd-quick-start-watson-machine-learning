@@ -2,4 +2,5 @@
 reefer-container-maintenance-predictor/.idea/*
 reefer-container-maintenance-predictor/.idea/workspace.xml
 reefer-container-simulator/.idea/*
+reefer-container-maintenance-predictor/*.iml
 .DS_Store
