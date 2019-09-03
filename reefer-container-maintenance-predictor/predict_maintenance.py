@@ -76,9 +76,8 @@ def setup_logger():
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         handler.setFormatter(formatter)
         root.addHandler(handler)
-    werkzeug_log = logging.getLogger('werkzeug')
-    werkzeug_log.setLevel(logging.WARNING)
-
+    logging.getLogger('werkzeug').setLevel(logging.WARNING)
+    logging.getLogger('apscheduler').setLevel(logging.WARNING)
 
 def connect_to_mongo_db():
     global mongo_connection
