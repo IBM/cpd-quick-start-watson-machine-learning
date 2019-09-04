@@ -1,9 +1,9 @@
 # Watson Machine Learning Quick Start
 
 The Watson Machine Learning Quick Start demonstrates use of PostgreSQL, Watson Machine Learning and MongoDB on Cloud Pak for Data. 
-In this example we have one application producing events from refrigeration containers (reefers) capturing key data points such as temperature, humidity, cumulative power consumption. The data is stored in a PostgreSQL database.
-The second application persists and deploys a pickled scikit-learn model to a Watson Machine Learning instance in the Cloud Pack for Data host, and then scores the data in the PostgreSQL database to determine whether the container requires maintenance. 
-The results are stored in a MongoDB and displayed in a web application.
+In this example, we have one application producing simulated events from refrigeration containers (reefers) that include telemetry data such as temperature, humidity, cumulative power consumption, etc. The events are persisted in a PostgreSQL database.
+The second application polls the telemetry data, applies a machine learning model to determine whether or not a given refrigeration unit requires maintenance, and stores the results in a MongoDB collection.
+The most recent results are displayed in a simple web application. 
 
 ![Diagram](readme_images/arch_diagram.jpg)
                      
