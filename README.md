@@ -1,6 +1,6 @@
 # Watson Machine Learning Quick Start
 
-The CPD Watson Machine Learning Quick Start demonstrates use of PostgreSQL, Watson Machine Learning and MongoDB on Cloud Pak for Data. 
+The Watson Machine Learning Quick Start demonstrates use of PostgreSQL, Watson Machine Learning and MongoDB on Cloud Pak for Data. 
 In this example we have one application producing events from reefer refrigeration containers capturing key data points such as temperature, humidity, cumulative power consumption. The data is stored in a PostgreSQL database.
 The second application persists and deploys a pickled scikit-learn model to a Watson Machine Learning instance in the Cloud Pack for Data host, and then scores the data in the PostgreSQL database to determine whether the container requires maintenance. 
 The results are stored in a MongoDB and displayed in a web application.
