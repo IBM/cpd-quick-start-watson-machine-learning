@@ -141,5 +141,4 @@ Assuming you used the URL of your own forked repository, you can configure your 
 [Learn more](https://www.ibm.com/support/knowledgecenter/SSQNUZ_current/com.ibm.icpdata.doc/zen/install/https-config.html)
 
 ## License
-
- 
+TBD
