@@ -159,6 +159,8 @@ Assuming you used the URL of your own forked repository, you can configure your 
 8. Leave the defaults for the remaining fields - That's it!
 9. After you save your webhook, refresh your Github settings page and check the status to verify connectivity.  
 
+### Learn more about [OpenShift templates](https://docs.openshift.com/enterprise/3.0/dev_guide/templates.html#dev-guide-templates).
+
 ### Known issues
 1. Model versions supported in Watson Machine Learning are documented here - https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/dsx/models.html.
 2. Each time the example is run a model is stored in WML and a new deployment is generated.
