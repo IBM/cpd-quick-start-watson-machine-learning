@@ -161,7 +161,7 @@ Assuming you used the URL of your own forked repository, you can configure your 
 
 ### Known issues
 1. Model versions supported in Watson Machine Learning are documented here - https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/dsx/models.html.
-2. Each time the example is run a model is stored in WML and a new deployment is generated.
+2. Each time the example is run a model is stored in Watson Machine Learning instance and a new deployment is generated.
 3. The micro services are currently configured to accept insecure endpoints for Cloud Pak for Data. For production, use secure endpoints only.
 
 ## License
