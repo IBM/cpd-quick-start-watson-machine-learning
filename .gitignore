@@ -5,4 +5,4 @@ reefer-container-simulator/.idea/*
 reefer-container-simulator/reefer-container-simulator.iml
 reefer-container-maintenance-predictor/reefer-container-maintenance-predictor.iml
 .DS_Store
-**/.iml
+*.iml
