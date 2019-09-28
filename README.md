@@ -11,7 +11,7 @@ The most recent results are displayed in a simple web application.
                      
 ## Getting started
 
-### Installing the Watson Assistant add-on on IBM Cloud Pak for Data 
+### Installing the Watson Machine Learning add-on on IBM Cloud Pak for Data 
 
 Make your data ready for an AI and multicloud world. Cloud Pak for Data System is an all-in-one cloud-native Data and AI platform in a box, providing a pre-configured, governed, and secure environment to collect, organize and analyze data. [Learn more](https://docs-icpdata.mybluemix.net/docs/content/SSQNUZ_current/com.ibm.icpdata.doc/zen/overview/overview.html).
 
