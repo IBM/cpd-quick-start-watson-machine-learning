@@ -7,7 +7,7 @@ In this example, we have one microservice producing simulated refrigeration cont
 A second microservice polls the telemetry data, applies a machine learning model to determine whether or not a given refrigeration unit requires maintenance, and stores the results in a MongoDB collection.
 The most recent results are displayed in a simple web application. 
 
-![Diagram](readme_images/arch_diagram.jpg)
+![Diagram](readme_images/Waston ML Quickstart architectural diagram.png)
                      
 ## Getting started
 
